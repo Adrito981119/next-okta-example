@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     document.cookie = 'okta-token-storage=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, isMFA?: boolean) => {
     cleanOktaCache();
     try {
       const transaction = await oktaAuth.idx.authenticate({ username: email, password: password });
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           console.error('Tokens are undefined');
         }
       }
-      if (transaction.status === IdxStatus.PENDING) {
+      if (transaction.status === IdxStatus.PENDING && isMFA) {
         router.push(`/verify?&email=${email}`);
       }
     } catch {}

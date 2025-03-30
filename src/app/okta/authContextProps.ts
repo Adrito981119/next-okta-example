@@ -2,7 +2,7 @@ import { CustomUserClaims, UserClaims } from '@okta/okta-auth-js';
 export interface AuthContextProps {
   authState: boolean;
   user: UserClaims<CustomUserClaims> | undefined | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, isMFA?: boolean) => Promise<void>;
   logout: () => void;
   setUser: (user: UserClaims<CustomUserClaims> | null) => void;
   checkAuthState: () => void;
